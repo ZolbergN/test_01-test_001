@@ -2,53 +2,62 @@
 
 using namespace std;
 
-struct Node {
+struct Node
+{
 	int data;
 	Node * next;
 };
-Node *head = NULL;
 
-Node * reverse(Node * head) {
-	struct Node *ptr = NULL, *tmp;
-	while (head)
-	{
-		tmp = head->next;
-		head->next = ptr;
-		ptr = head;
-		head = tmp;
-	}
-	return ptr;
-}
-void insertEnd(int d)
+class List
 {
-	Node *ptr = new Node();
-	ptr->data = d;
-	ptr->next = NULL;
-
-	if (head == NULL)
-		head = ptr;
-	else
-	{
-		Node *temp = head;
-		while (temp->next != NULL)
-		{
-			temp = temp->next;
-		}
-		temp->next = ptr;
-
+	Node *Head;
+public:
+	List() { 
+		Head = NULL; 
 	}
+	~List();
+	void Add(int x);
+	void Show();
+	Node * reverse(Node * head);
+};
 
+List::~List()
+{
+	while (Head != NULL)
+	{
+		Node *tmp = Head->next;
+		delete Head;
+		Head = tmp;
+	}
 }
 
-void displayList()
+void List::Add(int x)
 {
-	Node *ptr = head;
-	while (ptr != NULL)
+	Node *tmp = new Node;
+	tmp->data = x;
+	tmp->next = Head;
+	Head = tmp;
+}
+
+void List::Show()
+{
+	Node *tmp = Head;
+	while (tmp != NULL)
 	{
-		cout << ptr->data << " ";
-		ptr = ptr->next;
+		cout << tmp->data << "";
+		tmp = tmp->next;
 	}
-	cout << "\n";
+}
+Node * List::reverse(Node * head)
+{
+	Node *rev = NULL;
+	for (Node *node = head, *next_n; node != NULL; node = next_n)
+	{
+		next_n = node->next;
+		node->next = rev;
+		rev = node;
+	}
+	return rev;
 }
 
 int main()
